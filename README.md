@@ -29,6 +29,6 @@ You need to install Progress DataDirect ODBC driver on your machine before you c
 
 ### I can't find the datasource I am looking for
 
-If you cannot find the datasource you are looking for, please create a new issue.
+1. If you cannot find the datasource you are looking for, please create a new issue.
 
 ##### Disclaimer: These connectors are not official and should be treated as experimental.
