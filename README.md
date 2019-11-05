@@ -1,6 +1,6 @@
 ## Power-BI-ODBC-Connectors
 
-This repository contains connectors for Power BI for various data sources which will enable DirectQuery for any Progress DataDirect ODBC Connectors. 
+This repository contains connectors for Power BI for various data sources which will **enable DirectQuery** for any Progress DataDirect ODBC Connectors. 
 
 ### Pre-requisite
 You need to install Progress DataDirect ODBC driver on your machine before you can use the connector. 
@@ -26,5 +26,9 @@ You need to install Progress DataDirect ODBC driver on your machine before you c
 1. If you encounter an error, Go to `File` -> `Options and Settings` -> `Diagnostics` and click on `Open crash dump/traces` folder.
 
 2. This should open the Traces folder of Power BI. Zip it and create an issue on the repo or share it with your contact at Progress allowing me to troubleshoot and fix the issue.
+
+### I can't find the datasource I am looking for
+
+1. If you cannot find the datasource you are looking for, please create a new issue.
 
 ##### Disclaimer: These connectors are not official and should be treated as experimental.
