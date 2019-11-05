@@ -68,7 +68,6 @@ shared DataDirect_Hive_Connector.Contents = (HostName as text, PortNumber as num
             ],
             SQLGetInfo = [
                 // SQLGetinfo Overrides: https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlgetinfo
-                // Get Values from driver and fill it up
                 SQL_AGGREGATE_FUNCTIONS = 0x0000007F,
                 SQL_CONVERT_BIGINT = 0x000273D8,
                 SQL_CONVERT_BINARY = 0x00000000,
