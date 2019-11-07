@@ -45,7 +45,7 @@ HiveConnectorImpl = (HostName as text, PortNumber as number, Database as text) =
             if Credential[AuthenticationKind]? = "UsernamePassword" then
                 [ UID = Credential[Username], PWD = Credential[Password] ]
             else if Credential[AuthenticationKind]? = "Implicit" then
-                [ UID = null, PWD = null ]
+                [ UID = "", PWD = "" ]
             else
                 error Error.Record("Error", "Unhandled authentication kind: " & Credential[AuthenticationKind]?),
 
