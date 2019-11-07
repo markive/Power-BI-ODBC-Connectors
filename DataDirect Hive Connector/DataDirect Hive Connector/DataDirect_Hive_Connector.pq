@@ -6,7 +6,30 @@ section DataDirect_Hive_Connector;
 DriverName = "DataDirect 8.0 Apache Hive Wire Protocol";
 
 [DataSource.Kind="DataDirect_Hive_Connector", Publish="DataDirect_Hive_Connector.Publish"]
-shared DataDirect_Hive_Connector.Contents = (HostName as text, PortNumber as number, Database as text) =>
+shared DataDirect_Hive_Connector.Contents = Value.ReplaceType(HiveConnectorImpl, HiveConnectorMeta);
+
+HiveConnectorMeta = type function (
+	HostName as ( type text meta [
+		Documentation.FieldCaption = "HostName",
+        Documentation.FieldDescription = "Provide your Hive Server Address",
+        Documentation.SampleValues = {"localhost", "127.0.0.1"}
+	]),
+	PortNumber as ( type number meta [
+		Documentation.FieldCaption = "PortNumber",
+        Documentation.FieldDescription = "Provide your Hive Server's Port Number",
+        Documentation.SampleValues = {"10000"}
+	]),
+	Database as ( type text meta [
+		Documentation.FieldCaption = "Database",
+        Documentation.FieldDescription = "Provide your Hive Database Name",
+        Documentation.SampleValues = {"default"}
+	]))
+	as table meta [
+        Documentation.Name = "Connect to Hive - Progress DataDirect",
+        Documentation.LongDescription = "Progress DataDirect Hive Connector is high performance connector that let's you DirectQuery/Import data from your Hive Instance"
+    ];
+	
+HiveConnectorImpl = (HostName as text, PortNumber as number, Database as text) =>
     let
         // Connection String
         ConnectionString = [
