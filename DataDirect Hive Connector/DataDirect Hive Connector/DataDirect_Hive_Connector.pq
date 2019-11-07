@@ -108,17 +108,17 @@ shared DataDirect_Hive_Connector.Contents = (HostName as text, PortNumber as num
                 SQL_STRING_FUNCTIONS = 0x00053FFF,
                 SQL_SYSTEM_FUNCTIONS = 0x00000006,
                 SQL_TIMEDATE_FUNCTIONS = 0x001E7FE7
-            ]
-        ]),
-
-        OnError = (errorRecord as record) =>
+            ],
+			OnError = (errorRecord as record) =>
             if errorRecord[Reason] = DataSourceMissingClientLibrary then
-                    error Error.Record(
+					error Error.Record(
                         DataSourceMissingClientLibrary, Text.Format(
-                        "Progress DataDirect Apache Hive ODBC Driver is not installed. Please Download and Install the driver from here: ", { DriverDownloadUrl }),
-                        DriverDownloadUrl)
+                        "Progress DataDirect Apache Hive ODBC Driver is not installed. Please Download and Install the driver from here: #{0}", { DriverDownloadUrl }),
+                        errorRecord[Detail])
             else
                 error errorRecord
+        ])
+
     in
         HiveDataSource;
 
