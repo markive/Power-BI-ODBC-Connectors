@@ -121,9 +121,9 @@
     <value>Connect to DataDirect Autonomous REST Connector</value>
   </data>
   <data name="ButtonTitle" xml:space="preserve">
-    <value>DataDirect Autonomous REST Connector</value>
+    <value>Progress DataDirect Autonomous REST Connector</value>
   </data>
   <data name="DataSourceLabel" xml:space="preserve">
-    <value>DataDirect Autonomous REST Connector</value>
+    <value>Progress DataDirect Autonomous REST Connector</value>
   </data>
 </root>
