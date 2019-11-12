@@ -21,7 +21,7 @@ optional RestSamplePath as ( type text meta [
 optional RESTConfigPath as ( type text meta [
 	    Documentation.FieldCaption = "REST Configuration File",
         Documentation.FieldDescription = "Provide the path to REST Configuration file",
-        Documentation.SampleValues = {"C:\Users\<UserName>\...\sample.config"}
+        Documentation.SampleValues = {"C:\Users\<UserName>\...\sample.rest"}
 	]),
 optional AuthParam as ( type text meta [
         Documentation.FieldCaption = "Authentication Parameter",
