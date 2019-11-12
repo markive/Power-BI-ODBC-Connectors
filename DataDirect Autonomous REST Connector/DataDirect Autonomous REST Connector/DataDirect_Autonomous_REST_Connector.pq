@@ -93,43 +93,43 @@ optional RefreshToken as ( type text meta [
         Documentation.LongDescription = "Progress DataDirect Autonomous REST Connector is high performance connector that let's you DirectQuery/Import data from any REST API."
     ];
 
-AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullable text, optional RESTConfigPath as nullable text, optional AuthParam as nullable text, 
-                optional AuthHeader as nullable text, optional SecurityToken as nullable text, optional ClientID as nullable text, optional ClientSecret as nullable text, 
-                optional LogonID as nullable text, optional Password as nullable text, optional AccessToken as nullable text, optional OauthCode as nullable text, 
-                optional RefreshToken as nullable text, optional RedirectURI as nullable text, optional TokenURI as nullable text, optional Scope as nullable text) =>
+AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as text, optional RestConfigFile as text, optional AuthParam as text, 
+                optional AuthHeader as text, optional SecurityToken as text, optional ClientID as text, optional ClientSecret as text, 
+                optional LogonID as text, optional Password as text, optional AccessToken as text, optional OauthCode as text, 
+                optional RefreshToken as text, optional RedirectURI as text, optional TokenURI as text, optional Scope as text) =>
     let ConnectionString = [
         Driver = DriverName,
-        RestSamplePath =  RestSamplePath,
-        RestConfigFile =  RESTConfigPath,
+        RestSamplePath =  if RestSamplePath = null then "" else RestSamplePath,
+        RestConfigFile =  if RestConfigFile = null then "" else RestConfigFile,
         AuthenticationMethod = AuthenticationMethod,
-        LogonID = LogonID,
-        Password = Password,
-        AuthParam = AuthParam,
-        AuthHeader = AuthHeader,
-        SecurityToken = SecurityToken,
-        ClientID = ClientID,
-        ClientSecret = ClientSecret,
-        AccessToken = AccessToken,
-        RefreshToken = RefreshToken,
-        OauthCode = OauthCode,
-        Scope = Scope,
-        TokenURI = TokenURI,
-        RedirectURI = RedirectURI
+        LogonID = if LogonID = null then "" else LogonID,
+        Password = if Password = null then "" else Password,
+        AuthParam = if AuthParam = null then "" else AuthParam,
+        AuthHeader = if AuthHeader = null then "" else AuthHeader,
+        SecurityToken = if SecurityToken = null then "" else SecurityToken,
+        ClientID = if ClientID = null then "" else ClientID,
+        ClientSecret = if ClientSecret = null then "" else ClientSecret,
+        AccessToken = if AccessToken = null then "" else AccessToken,
+        RefreshToken = if RefreshToken = null then "" else RefreshToken,
+        OauthCode = if OauthCode = null then "" else OauthCode,
+        Scope = if Scope = null then "" else Scope,
+        TokenURI = if TokenURI = null then "" else TokenURI,
+        RedirectURI = if RedirectURI = null then "" else RedirectURI
         ],
 
     Credential = Extension.CurrentCredential(),
-	CredentialConnectionString =
+	/*CredentialConnectionString =
         if Credential[AuthenticationKind]? = "Implicit" then
-            [ UID = null, PWD = null ]
+            [LogonID = ConnectionString[LogonID], Password = ConnectionString[Password]]
         else
-            error Error.Record("Error", "Unhandled authentication kind: " & Credential[AuthenticationKind]?),
+            error Error.Record("Error", "Unhandled authentication kind: " & Credential[AuthenticationKind]?),*/
 
     AutoRESTConnector = Odbc.DataSource(ConnectionString, [
             CreateNavigationProperties = false,
             HierarchicalNavigation = true,
             ClientConnectionPooling = true,
             TolerateConcatOverflow = true,
-            CredentialConnectionString = CredentialConnectionString,
+            //CredentialConnectionString = CredentialConnectionString,
              SqlCapabilities = [
                 //SQL Capabilities Overrides : https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlcapabilities
                 SupportsTop = true,
