@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ButtonHelp" xml:space="preserve">
-    <value>Connect to DataDirect_Autonomous_REST_Connector</value>
+    <value>Connect to DataDirect Autonomous REST Connector</value>
   </data>
   <data name="ButtonTitle" xml:space="preserve">
-    <value>DataDirect_Autonomous_REST_Connector</value>
+    <value>DataDirect Autonomous REST Connector</value>
   </data>
   <data name="DataSourceLabel" xml:space="preserve">
-    <value>DataDirect_Autonomous_REST_Connector</value>
+    <value>DataDirect Autonomous REST Connector</value>
   </data>
 </root>
