@@ -118,18 +118,12 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as text, o
         ],
 
     Credential = Extension.CurrentCredential(),
-	/*CredentialConnectionString =
-        if Credential[AuthenticationKind]? = "Implicit" then
-            [LogonID = ConnectionString[LogonID], Password = ConnectionString[Password]]
-        else
-            error Error.Record("Error", "Unhandled authentication kind: " & Credential[AuthenticationKind]?),*/
 
     AutoRESTConnector = Odbc.DataSource(ConnectionString, [
             CreateNavigationProperties = false,
             HierarchicalNavigation = true,
             ClientConnectionPooling = true,
             TolerateConcatOverflow = true,
-            //CredentialConnectionString = CredentialConnectionString,
              SqlCapabilities = [
                 //SQL Capabilities Overrides : https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlcapabilities
                 SupportsTop = true,
@@ -198,7 +192,6 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as text, o
 DataDirect_Autonomous_REST_Connector = [
     Authentication = [
         Implicit = []
-        //UsernamePassword = []
     ],
     Label = Extension.LoadString("DataSourceLabel")
 ];
