@@ -9,17 +9,17 @@ shared DataDirect_Autonomous_REST_Connector.Contents = Value.ReplaceType(AutoRES
 
 AutoRESTMeta = type function (
 AuthenticationMethod as ( type text meta [
-	Documentation.FieldCaption = "Authentication Method",
+	    Documentation.FieldCaption = "Authentication Method",
         Documentation.FieldDescription = "Select your Authentication Method",
         Documentation.AllowedValues = {"None", "Basic", "HttpHeader", "UrlParameter", "OAuth2"}
 	]),
 optional RestSamplePath as ( type text meta [
-	Documentation.FieldCaption = "REST Url",
+	    Documentation.FieldCaption = "REST Url",
         Documentation.FieldDescription = "Provide your REST Endpoint",
         Documentation.SampleValues = {"https://example.com/api/"}
 	]),
 optional RESTConfigPath as ( type text meta [
-	Documentation.FieldCaption = "REST Configuration File",
+	    Documentation.FieldCaption = "REST Configuration File",
         Documentation.FieldDescription = "Provide the path to REST Configuration file",
         Documentation.SampleValues = {"C:\Users\<UserName>\...\sample.config"}
 	]),
@@ -87,8 +87,7 @@ optional RefreshToken as ( type text meta [
         Documentation.FieldCaption = "Refresh Token",
         Documentation.FieldDescription = "Provide the OAuth2 Refresh Token",
         Documentation.SampleValues = {"Your Refresh Token (OAuth2)"}        
-	])
-    )
+	]))
 	as table meta [
         Documentation.Name = "Connect to any REST API - DataDirect Autonomous REST Connector",
         Documentation.LongDescription = "Progress DataDirect Autonomous REST Connector is high performance connector that let's you DirectQuery/Import data from any REST API."
@@ -147,10 +146,10 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullabl
                 SQL_CONVERT_BINARY = 0x00A46D1F,
                 SQL_CONVERT_BIT = 0x00A0717F,
                 SQL_CONVERT_CHAR = 0x01E67F7F,
-		SQL_CONVERT_DATE = 0x00000000,
-		SQL_CONVERT_DECIMAL = 0x00A0717F,
-		SQL_CONVERT_DOUBLE = 0x00000000,
-		SQL_CONVERT_FLOAT = 0x00A0717F,
+		        SQL_CONVERT_DATE = 0x00000000,
+		        SQL_CONVERT_DECIMAL = 0x00A0717F,
+		        SQL_CONVERT_DOUBLE = 0x00000000,
+		        SQL_CONVERT_FLOAT = 0x00A0717F,
                 SQL_CONVERT_FUNCTIONS = 0x00000003,
                 SQL_CONVERT_INTEGER = 0x00A0717F,
                 SQL_CONVERT_INTERVAL_YEAR_MONTH = 0x00000000,
@@ -166,8 +165,8 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullabl
                 SQL_CONVERT_VARBINARY = 0x00A46D1F,
                 SQL_CONVERT_VARCHAR = 0x01E67F7F,
                 SQL_CONVERT_WCHAR = 0x01E67F7F,
-		SQL_CONVERT_WLONGVARCHAR = 0x00E00301,
-		SQL_CONVERT_WVARCHAR = 0x01E67F7F,
+		        SQL_CONVERT_WLONGVARCHAR = 0x00E00301,
+		        SQL_CONVERT_WVARCHAR = 0x01E67F7F,
                 SQL_IDENTIFIER_QUOTE_CHAR = "",
                 SQL_GROUP_BY = 2,
                 SQL_NUMERIC_FUNCTIONS = 0x00FFFFFF,
@@ -183,9 +182,16 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullabl
                 SQL_SUBQUERIES = 0x0000001F,
                 SQL_SYSTEM_FUNCTIONS = 0x00000007,
                 SQL_TIMEDATE_FUNCTIONS = 0x0011FFFF
-            ]
+            ],
+            OnError = (errorRecord as record) =>
+            if errorRecord[Reason] = DataSourceMissingClientLibrary then
+					error Error.Record(
+                        DataSourceMissingClientLibrary, Text.Format(
+                        "Progress DataDirect Autonomous REST Connector is not installed. Please Download and Install the driver from here: #{0}", { DriverDownloadUrl }),
+                        errorRecord[Detail])
+            else
+                error errorRecord
         ])
-
     in AutoRESTConnector;
 
 // Data Source Kind description
@@ -204,7 +210,8 @@ DataDirect_Autonomous_REST_Connector.Publish = [
     ButtonText = { Extension.LoadString("ButtonTitle"), Extension.LoadString("ButtonHelp") },
     LearnMoreUrl = "https://www.progress.com/odbc/autonomous-rest-api",
     SourceImage = DataDirect_Autonomous_REST_Connector.Icons,
-    SourceTypeImage = DataDirect_Autonomous_REST_Connector.Icons
+    SourceTypeImage = DataDirect_Autonomous_REST_Connector.Icons,
+    SupportsDirectQuery = true
 ];
 
 DataDirect_Autonomous_REST_Connector.Icons = [
@@ -213,3 +220,7 @@ DataDirect_Autonomous_REST_Connector.Icons = [
 ];
 
 EnableTraceOutput = true;
+
+//ErrorHandling
+DataSourceMissingClientLibrary = "DataSource.MissingClientLibrary";
+DriverDownloadUrl = "https://www.progress.com/odbc/autonomous-rest-api";
