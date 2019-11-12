@@ -133,7 +133,7 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullabl
             CredentialConnectionString = CredentialConnectionString,
              SqlCapabilities = [
                 //SQL Capabilities Overrides : https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlcapabilities
-                SupportsTop = false,
+                SupportsTop = true,
                 SupportsNumericLiterals = true,
                 SupportsStringLiterals = true,
                 SupportsOdbcDateLiterals = true,
@@ -142,8 +142,47 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as nullabl
                 StringLiteralEscapeCharacters = { "\" }
             ],
             SQLGetInfo = [
+                SQL_AGGREGATE_FUNCTIONS = 0x0000001F,
+                SQL_CONVERT_BIGINT = 0x00A0717F,
+                SQL_CONVERT_BINARY = 0x00A46D1F,
+                SQL_CONVERT_BIT = 0x00A0717F,
+                SQL_CONVERT_CHAR = 0x01E67F7F,
+				SQL_CONVERT_DATE = 0x00000000,
+				SQL_CONVERT_DECIMAL = 0x00A0717F,
+				SQL_CONVERT_DOUBLE = 0x00000000,
+				SQL_CONVERT_FLOAT = 0x00A0717F,
+                SQL_CONVERT_FUNCTIONS = 0x00000003,
+                SQL_CONVERT_INTEGER = 0x00A0717F,
+                SQL_CONVERT_INTERVAL_YEAR_MONTH = 0x00000000,
+                SQL_CONVERT_INTERVAL_DAY_TIME = 0x00000000,
+                SQL_CONVERT_LONGVARBINARY = 0x00040C00,
+                SQL_CONVERT_LONGVARCHAR = 0x00E00301,
+                SQL_CONVERT_NUMERIC = 0x00A0717F,
+                SQL_CONVERT_REAL = 0x00A0717F,
+                SQL_CONVERT_SMALLINT = 0x00A0717F,
+                SQL_CONVERT_TIME = 0x00000000,
+                SQL_CONVERT_TIMESTAMP = 0x00A20101,
+                SQL_CONVERT_TINYINT = 0x00A0717F,
+                SQL_CONVERT_VARBINARY = 0x00A46D1F,
+                SQL_CONVERT_VARCHAR = 0x01E67F7F,
+                SQL_CONVERT_WCHAR = 0x01E67F7F,
+				SQL_CONVERT_WLONGVARCHAR = 0x00E00301,
+				SQL_CONVERT_WVARCHAR = 0x01E67F7F,
+                SQL_IDENTIFIER_QUOTE_CHAR = "",
                 SQL_GROUP_BY = 2,
-                SQL_SQL_CONFORMANCE = 1
+                SQL_NUMERIC_FUNCTIONS = 0x00FFFFFF,
+                SQL_SCROLL_OPTIONS = 0x00000011,
+                SQL_SQL_CONFORMANCE = 1,
+                SQL_SQL92_DATETIME_FUNCTIONS = 0x00000000,
+                SQL_SQL92_NUMERIC_VALUE_FUNCTIONS = 0x00000000,
+                SQL_SQL92_PREDICATES = 0x00000007,
+                SQL_SQL92_RELATIONAL_JOIN_OPERATORS = 0x0000035A,
+                SQL_SQL92_STRING_FUNCTIONS = 0x00000006,
+                SQL_SQL92_VALUE_EXPRESSIONS = 0x0000000F,
+                SQL_STRING_FUNCTIONS = 0x007FFFFF,
+                SQL_SUBQUERIES = 0x0000001F,
+                SQL_SYSTEM_FUNCTIONS = 0x00000007,
+                SQL_TIMEDATE_FUNCTIONS = 0x0011FFFF
             ]
         ])
 
@@ -163,7 +202,7 @@ DataDirect_Autonomous_REST_Connector.Publish = [
     Beta = true,
     Category = "Other",
     ButtonText = { Extension.LoadString("ButtonTitle"), Extension.LoadString("ButtonHelp") },
-    LearnMoreUrl = "https://powerbi.microsoft.com/",
+    LearnMoreUrl = "https://www.progress.com/odbc/autonomous-rest-api",
     SourceImage = DataDirect_Autonomous_REST_Connector.Icons,
     SourceTypeImage = DataDirect_Autonomous_REST_Connector.Icons
 ];
