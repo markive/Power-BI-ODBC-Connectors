@@ -14,7 +14,7 @@ AuthenticationMethod as ( type text meta [
         Documentation.AllowedValues = {"None", "Basic", "HttpHeader", "UrlParameter", "OAuth2"}
 	]),
 optional RestSamplePath as ( type text meta [
-	    Documentation.FieldCaption = "REST Url",
+	    Documentation.FieldCaption = "REST Sample Path",
         Documentation.FieldDescription = "Provide your REST Endpoint",
         Documentation.SampleValues = {"https://example.com/api/"}
 	]),
