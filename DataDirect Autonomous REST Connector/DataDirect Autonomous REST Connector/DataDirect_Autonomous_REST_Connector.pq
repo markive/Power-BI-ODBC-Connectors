@@ -8,123 +8,34 @@ DriverName = "DataDirect 8.0 Autonomous REST Connector";
 shared DataDirect_Autonomous_REST_Connector.Contents = Value.ReplaceType(AutoRESTImpl, AutoRESTMeta);
 
 AutoRESTMeta = type function (
-AuthenticationMethod as ( type text meta [
-	    Documentation.FieldCaption = "Authentication Method",
-        Documentation.FieldDescription = "Select your Authentication Method",
-        Documentation.AllowedValues = {"None", "Basic", "HttpHeader", "UrlParameter", "OAuth2"}
-	]),
-optional RestSamplePath as ( type text meta [
-	    Documentation.FieldCaption = "REST Sample Path",
-        Documentation.FieldDescription = "Provide your REST Endpoint",
-        Documentation.SampleValues = {"https://example.com/api/"}
-	]),
-optional RESTConfigPath as ( type text meta [
-	    Documentation.FieldCaption = "REST Configuration File",
-        Documentation.FieldDescription = "Provide the path to REST Configuration file",
-        Documentation.SampleValues = {"C:\Users\<UserName>\...\sample.rest"}
-	]),
-optional AuthParam as ( type text meta [
-        Documentation.FieldCaption = "Authentication Parameter",
-        Documentation.FieldDescription = "Specify the name of URL Parameter used to pass Key or Token",
-        Documentation.SampleValues = {"apikey (URL Parameter)", "token (URL Parameter)"}        
-	]),
-optional AuthHeader as ( type text meta [
-        Documentation.FieldCaption = "Authentication Header",
-        Documentation.FieldDescription = "Specify the name of HTTP Header used for authentication",
-        Documentation.SampleValues = {"Authorization (HTTP Header/URL Parameter)", "X-Api-Key (HTTP Header/URL Parameter)"}        
-	]),
-optional SecurityToken as ( type text meta [
-        Documentation.FieldCaption = "Security Token",
-        Documentation.FieldDescription = "Specify the security token required to make a connection to your REST API endpoint",
-        Documentation.SampleValues = {"Your Token/APIKey etc., (HTTP Header/URL Parameter)"}        
-	]),
-optional LogonID as ( type text meta [
-        Documentation.FieldCaption = "Username",
-        Documentation.FieldDescription = "Specify the Username to your REST API endpoint",
-        Documentation.SampleValues = {"LogonID/Username (Basic/OAuth2)"}        
-	]),
-optional Password as ( type text meta [
-        Documentation.FieldCaption = "Password",
-        Documentation.FieldDescription = "Specify the Password to your REST API endpoint",
-        Documentation.SampleValues = {"Password (Basic/OAuth2)"}        
-	]),
-optional ClientID as ( type text meta [
-        Documentation.FieldCaption = "Client ID",
-        Documentation.FieldDescription = "Provide the OAuth2 ClientID",
-        Documentation.SampleValues = {"Your ClientID (OAuth2)"}        
-	]),
-optional ClientSecret as ( type text meta [
-        Documentation.FieldCaption = "Client Secret",
-        Documentation.FieldDescription = "Provide the OAuth2 Client Secret",
-        Documentation.SampleValues = {"Your Client Secret (OAuth2)"}        
-	]),
-optional OauthCode as ( type text meta [
-        Documentation.FieldCaption = "Authorization Code",
-        Documentation.FieldDescription = "Provide the OAuth2 Authorization Code",
-        Documentation.SampleValues = {"Your Authorization Code (OAuth2)"}        
-	]),
-optional TokenURI as ( type text meta [
-        Documentation.FieldCaption = "Token URL",
-        Documentation.FieldDescription = "Provide the OAuth2 Token URL",
-        Documentation.SampleValues = {"https://example.com/token (OAuth2)"}        
-	]),
-optional Scope as ( type text meta [
-        Documentation.FieldCaption = "Scope",
-        Documentation.FieldDescription = "Provide the OAuth2 Scope",
-        Documentation.SampleValues = {"OAuth2 Scope (OAuth2)"}        
-	]),
-optional RedirectURI as ( type text meta [
-        Documentation.FieldCaption = "Redirect URL",
-        Documentation.FieldDescription = "Provide the OAuth2 Redirect URL",
-        Documentation.SampleValues = {"https://yourapp.com/redirect (OAuth2)"}        
-	]),
-optional AccessToken as ( type text meta [
-        Documentation.FieldCaption = "Access Token",
-        Documentation.FieldDescription = "Provide the OAuth2 Access Token",
-        Documentation.SampleValues = {"Your Access Token (OAuth2)"}        
-	]),
-optional RefreshToken as ( type text meta [
-        Documentation.FieldCaption = "Refresh Token",
-        Documentation.FieldDescription = "Provide the OAuth2 Refresh Token",
-        Documentation.SampleValues = {"Your Refresh Token (OAuth2)"}        
+DSN as ( type text meta [
+	    Documentation.FieldCaption = "DSN Name",
+        Documentation.FieldDescription = "Provide your ODBC DSN Name",
+        Documentation.SampleValues = {"Name of ODBC Data Source you have defined on your machine"}
 	]))
 	as table meta [
-        Documentation.Name = "Connect to any REST API - DataDirect Autonomous REST Connector",
+        Documentation.Name = "Progress DataDirect Autonomous REST Connector",
         Documentation.LongDescription = "Progress DataDirect Autonomous REST Connector is high performance connector that let's you DirectQuery/Import data from any REST API."
     ];
 
-AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as text, optional RestConfigFile as text, optional AuthParam as text, 
-                optional AuthHeader as text, optional SecurityToken as text, optional ClientID as text, optional ClientSecret as text, 
-                optional LogonID as text, optional Password as text, optional AccessToken as text, optional OauthCode as text, 
-                optional RefreshToken as text, optional RedirectURI as text, optional TokenURI as text, optional Scope as text) =>
+AutoRESTImpl = (DSN as text) =>
     let ConnectionString = [
-        Driver = DriverName,
-        RestSamplePath =  if RestSamplePath = null then "" else RestSamplePath,
-        RestConfigFile =  if RestConfigFile = null then "" else RestConfigFile,
-        AuthenticationMethod = AuthenticationMethod,
-        LogonID = if LogonID = null then "" else LogonID,
-        Password = if Password = null then "" else Password,
-        AuthParam = if AuthParam = null then "" else AuthParam,
-        AuthHeader = if AuthHeader = null then "" else AuthHeader,
-        SecurityToken = if SecurityToken = null then "" else SecurityToken,
-        ClientID = if ClientID = null then "" else ClientID,
-        ClientSecret = if ClientSecret = null then "" else ClientSecret,
-        AccessToken = if AccessToken = null then "" else AccessToken,
-        RefreshToken = if RefreshToken = null then "" else RefreshToken,
-        OauthCode = if OauthCode = null then "" else OauthCode,
-        Scope = if Scope = null then "" else Scope,
-        TokenURI = if TokenURI = null then "" else TokenURI,
-        RedirectURI = if RedirectURI = null then "" else RedirectURI
+        DSN = DSN
         ],
 
     Credential = Extension.CurrentCredential(),
-
+    CredentialConnectionString =
+            if (Credential[AuthenticationKind]?) = "UsernamePassword" then 
+                [ UID = Credential[Username], PWD = Credential[Password] ]
+            else
+                ...,
+            
     AutoRESTConnector = Odbc.DataSource(ConnectionString, [
             CreateNavigationProperties = false,
             HierarchicalNavigation = true,
             ClientConnectionPooling = true,
             TolerateConcatOverflow = true,
-             SqlCapabilities = [
+            SqlCapabilities = [
                 //SQL Capabilities Overrides : https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlcapabilities
                 SupportsTop = true,
                 SupportsNumericLiterals = true,
@@ -190,8 +101,15 @@ AutoRESTImpl = (AuthenticationMethod as text, optional RestSamplePath as text, o
 
 // Data Source Kind description
 DataDirect_Autonomous_REST_Connector = [
+     TestConnection = (dataSourcePath) =>
+        let
+            json = Json.Document(dataSourcePath),
+            dsn = json[DSN]
+        in
+            {"DataDirect_Autonomous_REST_Connector.Contents", dsn},
     Authentication = [
-        Implicit = []
+        Implicit = [],
+        UsernamePassword = []
     ],
     Label = Extension.LoadString("DataSourceLabel")
 ];
