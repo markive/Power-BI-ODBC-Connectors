@@ -147,6 +147,14 @@ HiveConnectorImpl = (HostName as text, PortNumber as number, Database as text) =
 
 // Data Source Kind description
 DataDirect_Hive_Connector = [
+    TestConnection = (dataSourcePath) =>
+        let
+            json = Json.Document(dataSourcePath),
+            hostname = json[HostName],
+            portnumber = json[PortNumber],
+            database = json[Database]
+        in
+            {"DataDirect_Hive_Connector.Contents", hostname, portnumber, database},
     Authentication = [
         UsernamePassword = [],
         Implicit = []
