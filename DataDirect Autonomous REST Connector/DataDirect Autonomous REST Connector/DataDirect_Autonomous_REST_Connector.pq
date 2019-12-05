@@ -35,6 +35,7 @@ AutoRESTImpl = (DSN as text) =>
             HierarchicalNavigation = true,
             ClientConnectionPooling = true,
             TolerateConcatOverflow = true,
+            SoftNumbers = true,
             SqlCapabilities = [
                 //SQL Capabilities Overrides : https://docs.microsoft.com/en-us/power-query/odbc#overriding-sqlcapabilities
                 SupportsTop = true,
