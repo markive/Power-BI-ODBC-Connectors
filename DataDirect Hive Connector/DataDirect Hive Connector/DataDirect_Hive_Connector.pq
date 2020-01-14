@@ -9,34 +9,21 @@ DriverName = "DataDirect 8.0 Apache Hive Wire Protocol";
 shared DataDirect_Hive_Connector.Contents = Value.ReplaceType(HiveConnectorImpl, HiveConnectorMeta);
 
 HiveConnectorMeta = type function (
-	HostName as ( type text meta [
-		Documentation.FieldCaption = "HostName",
-        Documentation.FieldDescription = "Provide your Hive Server Address",
-        Documentation.SampleValues = {"localhost", "127.0.0.1"}
-	]),
-	PortNumber as ( type number meta [
-		Documentation.FieldCaption = "PortNumber",
-        Documentation.FieldDescription = "Provide your Hive Server's Port Number",
-        Documentation.SampleValues = {"10000"}
-	]),
-	Database as ( type text meta [
-		Documentation.FieldCaption = "Database",
-        Documentation.FieldDescription = "Provide your Hive Database Name",
-        Documentation.SampleValues = {"default"}
+	DSN as ( type text meta [
+	    Documentation.FieldCaption = "DSN Name",
+        Documentation.FieldDescription = "Provide your ODBC DSN Name",
+        Documentation.SampleValues = {"Name of ODBC Data Source you have defined on your machine"}
 	]))
 	as table meta [
         Documentation.Name = "Connect to Hive - Progress DataDirect",
         Documentation.LongDescription = "Progress DataDirect Hive Connector is high performance connector that let's you DirectQuery/Import data from your Hive Instance"
     ];
 	
-HiveConnectorImpl = (HostName as text, PortNumber as number, Database as text) =>
+HiveConnectorImpl = (DSN as text) =>
     let
         // Connection String
         ConnectionString = [
-            Driver = DriverName,
-            HostName = HostName,
-            PortNumber = PortNumber,
-            Database = Database
+            DSN = DSN
         ],
 
         // Authentication
@@ -150,11 +137,9 @@ DataDirect_Hive_Connector = [
     TestConnection = (dataSourcePath) =>
         let
             json = Json.Document(dataSourcePath),
-            hostname = json[HostName],
-            portnumber = json[PortNumber],
-            database = json[Database]
+            dsn = json[DSN]
         in
-            {"DataDirect_Hive_Connector.Contents", hostname, portnumber, database},
+            {"DataDirect_Hive_Connector.Contents", dsn},
     Authentication = [
         UsernamePassword = [],
         Implicit = []
