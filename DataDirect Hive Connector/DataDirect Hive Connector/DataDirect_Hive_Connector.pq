@@ -15,14 +15,12 @@ HiveConnectorMeta = type function (
         Documentation.SampleValues = {"Name of ODBC Data Source you have defined on your machine"}
 	]))
 	as table meta [
-        Documentation.Name = "Connect to Hive - Progress DataDirect",
+        Documentation.Name = "Progress DataDirect Hive Connector",
         Documentation.LongDescription = "Progress DataDirect Hive Connector is high performance connector that let's you DirectQuery/Import data from your Hive Instance"
     ];
 	
 HiveConnectorImpl = (DSN as text) =>
-    let
-        // Connection String
-        ConnectionString = [
+    let ConnectionString = [
             DSN = DSN
         ],
 
@@ -31,10 +29,8 @@ HiveConnectorImpl = (DSN as text) =>
 		CredentialConnectionString =
             if Credential[AuthenticationKind]? = "UsernamePassword" then
                 [ UID = Credential[Username], PWD = Credential[Password] ]
-            else if Credential[AuthenticationKind]? = "Implicit" then
-                [ UID = "", PWD = "" ]
-            else
-                error Error.Record("Error", "Unhandled authentication kind: " & Credential[AuthenticationKind]?),
+                else
+                ...,
 
         // Configure LIMIT 
         // https://docs.microsoft.com/en-us/power-query/odbc#overriding-astvisitor
