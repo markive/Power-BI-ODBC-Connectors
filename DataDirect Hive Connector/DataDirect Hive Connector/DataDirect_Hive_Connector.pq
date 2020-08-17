@@ -66,6 +66,7 @@ HiveConnectorImpl = (DSN as text) =>
                 SupportsOdbcDateLiterals = true,
                 SupportsOdbcTimeLiterals = true,
                 SupportsOdbcTimestampLiterals = true,
+                Sql92Conformance = 8,
                 StringLiteralEscapeCharacters = { "\" }
             ],
             SQLGetFunctions = [
@@ -104,7 +105,7 @@ HiveConnectorImpl = (DSN as text) =>
                 SQL_GROUP_BY = 2,
                 SQL_NUMERIC_FUNCTIONS = 0x007FFFEF,
                 SQL_SCROLL_OPTIONS = 0x00000011,
-                SQL_SQL_CONFORMANCE = 1,
+                SQL_SQL_CONFORMANCE = 8,
                 SQL_SQL92_DATETIME_FUNCTIONS = 0x00000007,
                 SQL_SQL92_NUMERIC_VALUE_FUNCTIONS = 0x00000000,
                 SQL_SQL92_PREDICATES = 0x00001E07,
